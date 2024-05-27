@@ -23,7 +23,6 @@ public class ProductEntity {
     private Double price;
     private String category_id;
     private ProductStatus status;
-    private boolean verified;
     private LocalDateTime created_at;
     private LocalDateTime modified_at;
     private LocalDateTime deleted_at;

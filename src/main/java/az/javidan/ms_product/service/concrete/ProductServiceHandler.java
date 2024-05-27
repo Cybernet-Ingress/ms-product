@@ -9,6 +9,8 @@ import az.javidan.ms_product.service.abstraction.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static az.javidan.ms_product.mapper.ProductMapper.PRODUCT_MAPPER;
 import static az.javidan.ms_product.model.enums.ProductStatus.DELETED;
 
@@ -36,6 +38,20 @@ public class ProductServiceHandler implements ProductService {
         product.setStatus(DELETED);
         productRepository.save(product);
     }
+
+    @Override
+    public void updateProduct(Long id, String name, String description, Double price) {
+        var product = fetchProductIfExist(id);
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        productRepository.save(product);
+    }
+
+//    @Override
+//    public List<ProductResponse> getProductList() {
+//        return productRepository.findByIdAndStatusNot();
+//    }
 
 
     private ProductEntity fetchProductIfExist(Long id) {

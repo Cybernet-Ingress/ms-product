@@ -2,6 +2,7 @@ package az.javidan.ms_product.controller;
 
 
 import az.javidan.ms_product.dao.entity.ProductEntity;
+import az.javidan.ms_product.dto.ProductUpdateDto;
 import az.javidan.ms_product.model.request.CreateProductRequest;
 import az.javidan.ms_product.model.response.ProductResponse;
 import az.javidan.ms_product.service.abstraction.ProductService;
@@ -36,9 +37,15 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
+
+    @PutMapping("/{id}")
+    public void updateProduct(@PathVariable Long id, @RequestBody ProductUpdateDto productUpdateDto) {
+        productService.updateProduct(id, productUpdateDto.getName(), productUpdateDto.getDescription(), productUpdateDto.getPrice());
+    }
+
 //    @GetMapping
 //    public List<ProductEntity> getAllProducts(){
-//        return productService.
+//        return productService.getProductList();
 //    }
 
 }
