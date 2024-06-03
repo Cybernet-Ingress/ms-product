@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public PageableResponse<ProductResponse> getUsers(PageCriteria pageCriteria, ProductCriteria productCriteria){
+    public PageableResponse<ProductResponse> getAllProducts(PageCriteria pageCriteria, ProductCriteria productCriteria){
         return productService.getAllProducts(productCriteria, pageCriteria);
     }
 
