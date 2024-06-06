@@ -1,5 +1,6 @@
 package az.javidan.ms_product.service.concrete;
 
+import az.javidan.ms_product.annotation.Log;
 import az.javidan.ms_product.dao.entity.ProductEntity;
 import az.javidan.ms_product.dao.repository.ProductRepository;
 import az.javidan.ms_product.exception.NotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 import static az.javidan.ms_product.mapper.ProductMapper.PRODUCT_MAPPER;
@@ -23,6 +25,7 @@ import static az.javidan.ms_product.model.enums.ProductStatus.DELETED;
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class ProductServiceHandler implements ProductService {
 
     private final ProductRepository productRepository;
@@ -42,6 +45,7 @@ public class ProductServiceHandler implements ProductService {
     public void deleteProduct(Long id) {
         var product = fetchProductIfExist(id);
         product.setStatus(DELETED);
+        product.setDeleted_at(LocalDateTime.now());
         productRepository.save(product);
     }
 
@@ -51,6 +55,7 @@ public class ProductServiceHandler implements ProductService {
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
+        product.setModified_at(LocalDateTime.now());
         productRepository.save(product);
     }
 
@@ -70,6 +75,12 @@ public class ProductServiceHandler implements ProductService {
                 .totalElements(productPage.getTotalElements())
                 .build();
     }
+
+//    @Override
+//    public void saveRating(Long id) {
+//        var product = fetchProductIfExist(id);
+//
+//    }
 
 
     private ProductEntity fetchProductIfExist(Long id) {

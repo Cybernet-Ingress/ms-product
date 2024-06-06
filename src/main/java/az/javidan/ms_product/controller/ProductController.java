@@ -1,7 +1,7 @@
 package az.javidan.ms_product.controller;
 
 
-import az.javidan.ms_product.dao.entity.ProductEntity;
+import az.javidan.ms_product.annotation.Log;
 import az.javidan.ms_product.dto.ProductUpdateDto;
 import az.javidan.ms_product.model.request.CreateProductRequest;
 import az.javidan.ms_product.model.request.PageCriteria;
@@ -13,11 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("v1/products")
 @RequiredArgsConstructor
+@Log
 public class ProductController {
 
     private final ProductService productService;

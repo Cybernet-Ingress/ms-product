@@ -19,4 +19,6 @@ public interface ProductService {
     PageableResponse<ProductResponse> getAllProducts(ProductCriteria productCriteria,
                                                      PageCriteria pageCriteria);
 
+   // void saveRating (Long id);
+
 }

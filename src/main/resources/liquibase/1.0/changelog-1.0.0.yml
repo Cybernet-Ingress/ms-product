@@ -8,55 +8,58 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: name
-                  type: VARCHAR2(255 CHAR)
+                  type: VARCHAR(255)
               - column:
                   name: description
-                  type: VARCHAR2(255 CHAR)
-                  constraints:
-                    nullable: false
+                  type: TEXT
               - column:
                   name: price
-                  type: NUMBER(10,2)
+                  type: DOUBLE
                   constraints:
                     nullable: false
               - column:
                   name: category_id
-                  type: VARCHAR2(255 CHAR)
-                  constraints:
-                    nullable: false
+                  type: VARCHAR(255)
               - column:
                   name: status
-                  type: VARCHAR2(255 CHAR)
+                  type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
                   name: created_at
                   type: TIMESTAMP
-                  defaultValueComputed: SYSTIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: modified_at
                   type: TIMESTAMP
-                  defaultValueComputed: SYSTIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: deleted_at
                   type: TIMESTAMP
-                  constraints:
-                    nullable: true
               - column:
                   name: rating
-                  type: NUMBER(3,2)
-                  constraints:
-                    nullable: true
+                  type: DOUBLE
+
 
             remarks: Table to store product_details information
+
+
+  - changeSet:
+      id: 2
+      author: Javidan Hajiyev
+      changes:
+        - dropNotNullConstraint:
+            tableName: product_details
+            columnName: modified_at
+            columnDataType: TIMESTAMP
