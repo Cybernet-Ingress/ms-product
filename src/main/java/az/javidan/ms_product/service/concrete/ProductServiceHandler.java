@@ -76,11 +76,29 @@ public class ProductServiceHandler implements ProductService {
                 .build();
     }
 
-//    @Override
-//    public void saveRating(Long id) {
-//        var product = fetchProductIfExist(id);
-//
-//    }
+    @Override
+    public void updateRating(Long id, Double rating) {
+        var product = fetchProductIfExist(id);
+        product.setRating(rating);
+        product.setModified_at(LocalDateTime.now());
+        productRepository.save(product);
+    }
+
+    @Override
+    public void updateComment(Long id, String comment) {
+        var product = fetchProductIfExist(id);
+        product.setComment(comment);
+        product.setModified_at(LocalDateTime.now());
+        productRepository.save(product);
+    }
+
+    @Override
+    public void updateCategory(Long id, String categoryId) {
+        var product = fetchProductIfExist(id);
+        product.setCategory_id(categoryId);
+        product.setModified_at(LocalDateTime.now());
+        productRepository.save(product);
+    }
 
 
     private ProductEntity fetchProductIfExist(Long id) {

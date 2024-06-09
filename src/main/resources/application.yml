@@ -8,27 +8,27 @@ spring:
     change-log: classpath:liquibase/changelog-master.yml
   jmx:
     enabled: true
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3s
+          max-attempts: 5
+          max-interval: 5s
+          multiplier: 1
+        missing-queues-fatal: false
+    queue:
+      rating: RATING_Q
+      rating-dlq: RATING_DLQ
+      comment: COMMENT_Q
+      comment-dlq: COMMENT_DLQ
+      category: CATEGORY_Q
+      category-dlq: CATEGORY_DLQ
+
 logging:
   level:
     root: INFO
-
-
-
-#    rabbitmq:
-#      host: localhost
-#      username: guest
-#      password: guest
-#      listener:
-#        simple:
-#          retry:
-#            enabled: true
-#            initial-interval: 3s
-#            max-attempts: 5
-#            max-interval: 5s
-#            multiplier: 1
-#          missing-queues-fatal: false
-#
-#  rabbitmq:
-#    queue:
-#      payment: PRODUCT_Q
-#      payment_dlq: PRODUCT_DLQ

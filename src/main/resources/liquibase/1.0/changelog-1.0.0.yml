@@ -63,3 +63,15 @@ databaseChangeLog:
             tableName: product_details
             columnName: modified_at
             columnDataType: TIMESTAMP
+
+
+  - changeSet:
+      id: 3
+      author: Javidan Hajiyev
+      changes:
+        - addColumn:
+            tableName: product_details
+            columns:
+              - column:
+                  name: comment
+                  type: VARCHAR(1000)

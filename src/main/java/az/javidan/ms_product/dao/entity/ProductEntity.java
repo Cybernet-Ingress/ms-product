@@ -32,4 +32,5 @@ public class ProductEntity {
     private LocalDateTime modified_at;
     private LocalDateTime deleted_at;
     private Double rating;
+    private String comment;
 }
