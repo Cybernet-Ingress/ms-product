@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import static az.javidan.ms_product.exception.ExceptionConstants.PRODUCT_NOT_FOUND_CODE;
+import static az.javidan.ms_product.exception.ExceptionConstants.PRODUCT_NOT_FOUND_MESSAGE;
 import static az.javidan.ms_product.mapper.ProductMapper.PRODUCT_MAPPER;
 import static az.javidan.ms_product.model.enums.ProductStatus.DELETED;
 
@@ -103,6 +105,9 @@ public class ProductServiceHandler implements ProductService {
 
     private ProductEntity fetchProductIfExist(Long id) {
         return productRepository.findByIdAndStatusNot(id, DELETED)
-                .orElseThrow(() -> new NotFoundException("Product not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(PRODUCT_NOT_FOUND_MESSAGE,id),
+                        PRODUCT_NOT_FOUND_CODE
+                ));
     }
 }
