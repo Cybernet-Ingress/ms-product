@@ -2,8 +2,11 @@ package az.javidan.ms_product.mapper;
 
 import az.javidan.ms_product.dao.entity.ProductEntity;
 import az.javidan.ms_product.dao.repository.ProductRepository;
+import az.javidan.ms_product.model.enums.ProductStatus;
 import az.javidan.ms_product.model.request.CreateProductRequest;
 import az.javidan.ms_product.model.response.ProductResponse;
+
+import java.time.LocalDateTime;
 
 public enum ProductMapper {
 
@@ -15,6 +18,8 @@ public enum ProductMapper {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
+                .status(ProductStatus.CREATED)
+                .created_at(LocalDateTime.now())
                 .build();
 
     }

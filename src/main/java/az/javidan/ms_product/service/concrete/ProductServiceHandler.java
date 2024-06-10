@@ -1,5 +1,6 @@
 package az.javidan.ms_product.service.concrete;
 
+import az.javidan.ms_product.annotation.Log;
 import az.javidan.ms_product.dao.entity.ProductEntity;
 import az.javidan.ms_product.dao.repository.ProductRepository;
 import az.javidan.ms_product.exception.NotFoundException;
@@ -15,14 +16,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import static az.javidan.ms_product.exception.ExceptionConstants.PRODUCT_NOT_FOUND_CODE;
+import static az.javidan.ms_product.exception.ExceptionConstants.PRODUCT_NOT_FOUND_MESSAGE;
 import static az.javidan.ms_product.mapper.ProductMapper.PRODUCT_MAPPER;
 import static az.javidan.ms_product.model.enums.ProductStatus.DELETED;
 
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class ProductServiceHandler implements ProductService {
 
     private final ProductRepository productRepository;
@@ -42,6 +47,7 @@ public class ProductServiceHandler implements ProductService {
     public void deleteProduct(Long id) {
         var product = fetchProductIfExist(id);
         product.setStatus(DELETED);
+        product.setDeleted_at(LocalDateTime.now());
         productRepository.save(product);
     }
 
@@ -51,6 +57,7 @@ public class ProductServiceHandler implements ProductService {
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
+        product.setModified_at(LocalDateTime.now());
         productRepository.save(product);
     }
 
@@ -71,9 +78,36 @@ public class ProductServiceHandler implements ProductService {
                 .build();
     }
 
+    @Override
+    public void updateRating(Long id, Double rating) {
+        var product = fetchProductIfExist(id);
+        product.setRating(rating);
+        product.setModified_at(LocalDateTime.now());
+        productRepository.save(product);
+    }
+
+    @Override
+    public void updateComment(Long id, String comment) {
+        var product = fetchProductIfExist(id);
+        product.setComment(comment);
+        product.setModified_at(LocalDateTime.now());
+        productRepository.save(product);
+    }
+
+    @Override
+    public void updateCategory(Long id, String categoryId) {
+        var product = fetchProductIfExist(id);
+        product.setCategory_id(categoryId);
+        product.setModified_at(LocalDateTime.now());
+        productRepository.save(product);
+    }
+
 
     private ProductEntity fetchProductIfExist(Long id) {
         return productRepository.findByIdAndStatusNot(id, DELETED)
-                .orElseThrow(() -> new NotFoundException("Product not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(PRODUCT_NOT_FOUND_MESSAGE,id),
+                        PRODUCT_NOT_FOUND_CODE
+                ));
     }
 }

@@ -19,4 +19,9 @@ public interface ProductService {
     PageableResponse<ProductResponse> getAllProducts(ProductCriteria productCriteria,
                                                      PageCriteria pageCriteria);
 
+    void updateRating(Long id, Double rating);
+
+    void updateComment(Long id, String comment);
+    void updateCategory(Long id, String categoryId);
+
 }
