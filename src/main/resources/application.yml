@@ -24,8 +24,6 @@ spring:
     queue:
       rating: RATING_Q
       rating-dlq: RATING_DLQ
-      comment: COMMENT_Q
-      comment-dlq: COMMENT_DLQ
       category: CATEGORY_Q
       category-dlq: CATEGORY_DLQ
 

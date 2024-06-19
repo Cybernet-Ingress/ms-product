@@ -1,16 +1,17 @@
 package service
 
-import az.javidan.ms_product.dao.entity.ProductEntity
-import az.javidan.ms_product.dao.repository.ProductRepository
-import az.javidan.ms_product.exception.NotFoundException
-import az.javidan.ms_product.model.enums.ProductStatus
-import az.javidan.ms_product.model.request.CreateProductRequest
-import az.javidan.ms_product.service.abstraction.ProductService
-import az.javidan.ms_product.service.concrete.ProductServiceHandler
+import az.javidan.msproduct.dao.entity.ProductEntity
+import az.javidan.msproduct.dao.repository.ProductRepository
+import az.javidan.msproduct.exception.NotFoundException
+import az.javidan.msproduct.model.enums.ProductStatus
+import az.javidan.msproduct.model.request.CreateProductRequest
+import az.javidan.msproduct.service.abstraction.ProductService
+import az.javidan.msproduct.service.concrete.ProductServiceHandler
 import io.github.benas.randombeans.EnhancedRandomBuilder
 import io.github.benas.randombeans.api.EnhancedRandom
 import spock.lang.Specification
-import static az.javidan.ms_product.mapper.ProductMapper.PRODUCT_MAPPER
+
+import static az.javidan.msproduct.mapper.ProductMapper.PRODUCT_MAPPER
 
 class ProductServiceHandlerTest extends Specification {
     EnhancedRandom random = EnhancedRandomBuilder.aNewEnhancedRandom()
