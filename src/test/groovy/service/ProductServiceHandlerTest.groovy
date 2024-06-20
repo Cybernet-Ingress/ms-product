@@ -49,11 +49,7 @@ class ProductServiceHandlerTest extends Specification {
 
         then:
         1 * productRepository.findByIdAndStatusNot(id, ProductStatus.DELETED) >> Optional.of(entity)
-        actual.id == expected.id
-        actual.name == expected.name
-        actual.description == expected.description
-        actual.price == expected.price
-        actual.rating == expected.rating
+        actual == expected
 
     }
 
@@ -63,6 +59,53 @@ class ProductServiceHandlerTest extends Specification {
 
         when:
         productService.getProduct(id)
+
+        then:
+        1 * productRepository.findByIdAndStatusNot(id, ProductStatus.DELETED) >> Optional.empty()
+        thrown(NotFoundException)
+    }
+
+    def "TestDeleteProduct"() {
+
+        given:
+        def id = random.nextLong()
+        def product = random.nextObject(ProductEntity)
+
+        when:
+        productService.deleteProduct(id)
+
+        then:
+        1 * productRepository.findByIdAndStatusNot(id, ProductStatus.DELETED) >> Optional.of(product)
+        1 * productRepository.save(product)
+
+    }
+
+    def "TestUpdateProduct"() {
+        given:
+        def id = random.nextLong()
+        def productUpdateRequestDto = random.nextObject(ProductUpdateRequestDto)
+        def product = random.nextObject(ProductEntity)
+
+        when:
+        productService.updateProduct(id, productUpdateRequestDto)
+
+        then:
+        1 * productRepository.findByIdAndStatusNot(id, ProductStatus.DELETED) >> Optional.of(product)
+        1 * productRepository.save({ ProductEntity savedProduct ->
+            savedProduct.name == productUpdateRequestDto.name &&
+                    savedProduct.description == productUpdateRequestDto.description &&
+                    savedProduct.price == productUpdateRequestDto.price &&
+                    savedProduct.subscribe == productUpdateRequestDto.subscribe
+        })
+    }
+
+    def "TestUpdateProduct error product not found"() {
+        given:
+        def id = random.nextLong()
+        def productUpdateRequestDto = random.nextObject(ProductUpdateRequestDto)
+
+        when:
+        productService.updateProduct(id, productUpdateRequestDto)
 
         then:
         1 * productRepository.findByIdAndStatusNot(id, ProductStatus.DELETED) >> Optional.empty()

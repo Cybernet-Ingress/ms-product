@@ -18,8 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-
 import static az.javidan.msproduct.exception.ExceptionConstants.PRODUCT_NOT_FOUND_CODE;
 import static az.javidan.msproduct.exception.ExceptionConstants.PRODUCT_NOT_FOUND_MESSAGE;
 import static az.javidan.msproduct.mapper.ProductMapper.PRODUCT_MAPPER;
@@ -53,13 +51,13 @@ public class ProductServiceHandler implements ProductService {
     }
 
     @Override
-    public void updateProduct(Long id, ProductUpdateRequestDto productUpdateDto) {
+    public void updateProduct(Long id, ProductUpdateRequestDto productUpdateRequestDto) {
         var product = fetchProductIfExist(id);
-        product.setName(productUpdateDto.getName());
-        product.setDescription(productUpdateDto.getDescription());
-        product.setPrice(productUpdateDto.getPrice());
+        product.setName(productUpdateRequestDto.getName());
+        product.setDescription(productUpdateRequestDto.getDescription());
+        product.setPrice(productUpdateRequestDto.getPrice());
         product.setUpdatedAt(LocalDateTime.now());
-        product.setSubscribe(productUpdateDto.getSubscribe());
+        product.setSubscribe(productUpdateRequestDto.getSubscribe());
         productRepository.save(product);
     }
 
