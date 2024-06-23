@@ -7,7 +7,7 @@ import az.javidan.msproduct.model.request.ProductUpdateRequestDto;
 import az.javidan.msproduct.model.response.PageableResponse;
 import az.javidan.msproduct.model.response.ProductResponse;
 
-import java.math.BigDecimal;
+
 
 public interface ProductService {
 
@@ -17,10 +17,9 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
-    void updateProduct(Long id, ProductUpdateRequestDto productUpdateDto);
+    void updateProduct(Long id, ProductUpdateRequestDto productUpdateRequestDto);
 
     PageableResponse<ProductResponse> getAllProducts(ProductCriteria productCriteria,
                                                      PageCriteria pageCriteria);
-
 
 }

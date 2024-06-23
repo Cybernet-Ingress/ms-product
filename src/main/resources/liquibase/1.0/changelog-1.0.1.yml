@@ -79,7 +79,7 @@ databaseChangeLog:
                     nullable: false
 
   - changeSet:
-      id: 3  # Mərhələ ID-si yeni vəziyyətə uyğun olmalıdır.
+      id: 3  
       author: Javidan Hajiyev
       changes:
           - renameColumn:

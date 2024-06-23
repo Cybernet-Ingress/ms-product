@@ -5,6 +5,7 @@ import az.javidan.msproduct.dao.repository.ProductRepository
 import az.javidan.msproduct.exception.NotFoundException
 import az.javidan.msproduct.model.enums.ProductStatus
 import az.javidan.msproduct.model.request.CreateProductRequest
+import az.javidan.msproduct.model.request.ProductUpdateRequestDto
 import az.javidan.msproduct.service.abstraction.ProductService
 import az.javidan.msproduct.service.concrete.ProductServiceHandler
 import io.github.benas.randombeans.EnhancedRandomBuilder
@@ -38,11 +39,10 @@ class ProductServiceHandlerTest extends Specification {
     }
 
     def "TestGetProduct success"() {
-
         given:
         def id = random.nextLong()
         def entity = random.nextObject(ProductEntity)
-        def expected = PRODUCT_MAPPER.buildProductEntity(request)
+        def expected = PRODUCT_MAPPER.buildProductResponse(entity)
 
         when:
         def actual = productService.getProduct(id)
@@ -50,7 +50,6 @@ class ProductServiceHandlerTest extends Specification {
         then:
         1 * productRepository.findByIdAndStatusNot(id, ProductStatus.DELETED) >> Optional.of(entity)
         actual == expected
-
     }
 
     def "TestGetProduct error product not found"() {
@@ -95,9 +94,11 @@ class ProductServiceHandlerTest extends Specification {
             savedProduct.name == productUpdateRequestDto.name &&
                     savedProduct.description == productUpdateRequestDto.description &&
                     savedProduct.price == productUpdateRequestDto.price &&
-                    savedProduct.subscribe == productUpdateRequestDto.subscribe
+                    savedProduct.subscribe == productUpdateRequestDto.subscribe &&
+                    savedProduct.updatedAt != null
         })
     }
+
 
     def "TestUpdateProduct error product not found"() {
         given:

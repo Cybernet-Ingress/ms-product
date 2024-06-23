@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+
 import static az.javidan.msproduct.exception.ExceptionConstants.PRODUCT_NOT_FOUND_CODE;
 import static az.javidan.msproduct.exception.ExceptionConstants.PRODUCT_NOT_FOUND_MESSAGE;
 import static az.javidan.msproduct.mapper.ProductMapper.PRODUCT_MAPPER;
@@ -62,17 +63,18 @@ public class ProductServiceHandler implements ProductService {
     }
 
     @Override
-    public PageableResponse<ProductResponse> getAllProducts(ProductCriteria productCriteria,
-                                                            PageCriteria pageCriteria) {
+    public PageableResponse<ProductResponse> getAllProducts(ProductCriteria productCriteria, PageCriteria pageCriteria) {
 
         Sort sort = Sort.by(Sort.Order.desc("subscribe"));
 
-        if (pageCriteria.getSortBy() != null) {
-            Sort.Direction sortDirection = "desc".equalsIgnoreCase(pageCriteria.getSortDirection()) ? Sort.Direction.DESC : Sort.Direction.ASC;
-            sort = sort.and(Sort.by(sortDirection, pageCriteria.getSortBy()));
+        if (pageCriteria.getSortBy() != null && pageCriteria.getSortDirection() != null) {
+            Sort.Direction direction = Sort.Direction.fromString(pageCriteria.getSortDirection());
+            sort = sort.and(Sort.by(direction, pageCriteria.getSortBy()));
+        } else {
+            sort = sort.and(Sort.by(Sort.Direction.DESC, "id"));
         }
-        var pageRequest =
-                PageRequest.of(pageCriteria.getPage(), pageCriteria.getCount(), sort);
+
+        var pageRequest = PageRequest.of(pageCriteria.getPage(), pageCriteria.getCount(), sort);
         var productPage = productRepository.findAll(new ProductSpecification(productCriteria), pageRequest);
 
         return PRODUCT_MAPPER.buildPageableProductResponse(productPage);

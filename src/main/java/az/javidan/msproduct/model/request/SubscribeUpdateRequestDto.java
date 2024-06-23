@@ -6,19 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductUpdateRequestDto {
+public class SubscribeUpdateRequestDto {
 
-    private String name;
-
-    private String description;
-
-    private BigDecimal price;
+    private Long id;
 
     private Boolean subscribe;
 }

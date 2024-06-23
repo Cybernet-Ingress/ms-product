@@ -17,6 +17,7 @@ public class RabbitMQConfig {
     private final String ratingDLQExchange;
     private final String ratingQKey;
     private final String ratingDLQKey;
+
     private final String categoryQ;
     private final String categoryDLQ;
     private final String categoryQExchange;
@@ -24,11 +25,19 @@ public class RabbitMQConfig {
     private final String categoryQKey;
     private final String categoryDLQKey;
 
+    private final String subscribeQ;
+    private final String subscribeDLQ;
+    private final String subscribeQExchange;
+    private final String subscribeDLQExchange;
+    private final String subscribeQKey;
+    private final String subscribeDLQKey;
 
     public RabbitMQConfig(@Value("${spring.rabbitmq.queue.rating}") String ratingQ,
                           @Value("${spring.rabbitmq.queue.rating-dlq}") String ratingDLQ,
                           @Value("${spring.rabbitmq.queue.category}") String categoryQ,
-                          @Value("${spring.rabbitmq.queue.category-dlq}") String categoryDLQ) {
+                          @Value("${spring.rabbitmq.queue.category-dlq}") String categoryDLQ,
+                          @Value("${spring.rabbitmq.queue.subscribe}") String subscribeQ,
+                          @Value("${spring.rabbitmq.queue.subscribe-dlq}") String subscribeDLQ) {
         this.ratingQ = ratingQ;
         this.ratingDLQ = ratingDLQ;
         this.ratingQExchange = ratingQ + "_Exchange";
@@ -41,6 +50,12 @@ public class RabbitMQConfig {
         this.categoryDLQExchange = categoryDLQ + "_Exchange";
         this.categoryQKey = categoryQ + "_Key";
         this.categoryDLQKey = categoryDLQ + "_Key";
+        this.subscribeQ = subscribeQ;
+        this.subscribeDLQ = subscribeDLQ;
+        this.subscribeQExchange = subscribeQ + "_Exchange";
+        this.subscribeDLQExchange = subscribeDLQ + "_Exchange";
+        this.subscribeQKey = subscribeQ + "_Key";
+        this.subscribeDLQKey = subscribeDLQ + "_Key";
     }
 
     @Bean
@@ -109,5 +124,39 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(categoryQ())
                 .to(categoryQExchange())
                 .with(categoryQKey);
+    }
+
+    @Bean
+    public DirectExchange subscribeDLQExchange() {
+        return new DirectExchange(subscribeDLQExchange);
+    }
+
+    @Bean
+    public DirectExchange subscribeQExchange() {
+        return new DirectExchange(subscribeQExchange);
+    }
+
+    @Bean
+    public Queue subscribeDQL() {
+        return new Queue(subscribeDLQ, true);
+    }
+
+    @Bean
+    public Queue subscribeQ() {
+        return new Queue(subscribeQ, true);
+    }
+
+    @Bean
+    public Binding subscribeDLQBinding() {
+        return BindingBuilder.bind(subscribeDQL())
+                .to(subscribeDLQExchange())
+                .with(subscribeDLQKey);
+    }
+
+    @Bean
+    public Binding subscribeQBinding() {
+        return BindingBuilder.bind(subscribeQ())
+                .to(subscribeQExchange())
+                .with(subscribeQKey);
     }
 }

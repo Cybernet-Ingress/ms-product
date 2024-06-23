@@ -8,6 +8,7 @@ import az.javidan.msproduct.model.request.ProductCriteria;
 import az.javidan.msproduct.model.response.PageableResponse;
 import az.javidan.msproduct.model.response.ProductResponse;
 import az.javidan.msproduct.service.abstraction.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct(@RequestBody CreateProductRequest request) {
+    public void createProduct(@Valid @RequestBody CreateProductRequest request) {
         productService.createProduct(request);
     }
 

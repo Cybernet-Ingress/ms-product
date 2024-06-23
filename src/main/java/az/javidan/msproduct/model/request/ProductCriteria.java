@@ -10,9 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductCriteria {
     private String name;
+
     private String description;
+
     private Double priceFrom;
+
     private Double priceTo;
+
     private ProductStatus status;
+
     private Double rating;
 }

@@ -37,18 +37,29 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String description;
+
     private BigDecimal price;
+
     private Long categoryId;
+
     @Enumerated(STRING)
     private ProductStatus status;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
     private BigDecimal rating;
+
     private Long quantity;
+
     private Long userId;
+
     private Boolean subscribe;
 }

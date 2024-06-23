@@ -26,6 +26,8 @@ spring:
       rating-dlq: RATING_DLQ
       category: CATEGORY_Q
       category-dlq: CATEGORY_DLQ
+      subscribe:  SUBSCRIBE_Q
+      subscribe-dlq: SUBSCRIBE_DLQ
 
 logging:
   level:
